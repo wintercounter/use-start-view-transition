@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "module": "esNext",
+        "target": "esnext",
+        "moduleResolution": "node",
+        "allowJs": false,
+        "emitDeclarationOnly": true,
+        "strict": true,
+        "jsx": "preserve",
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        "noImplicitAny": false,
+        "declaration": true,
+        "baseUrl": "src",
+        "skipLibCheck": true,
+        "incremental": true,
+        "outDir": "src",
+        "paths": {},
+        "typeRoots": ["@types"]
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules"]
+}

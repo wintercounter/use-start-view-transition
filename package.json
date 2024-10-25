@@ -1,0 +1,56 @@
+{
+    "name": "use-start-view-transition",
+    "version": "1.0.2",
+    "description": "A set of hooks to use `document.startViewTransition` upon state/value changes",
+    "main": "dist/cjs/index.js",
+    "module": "dist/index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "mhy swc --mhy-env=prod && mhy swc --mhy-env=prod:cjs",
+        "build:watch": "npx nodemon --watch \"src/**/*\" --exec \"npm run build\" -e \"*\"",
+        "dev": "npm run build:watch",
+        "watch:esm": "mhy swc --mhy-env=prod --watch",
+        "watch:cjs": "mhy swc --mhy-env=prod:cjs --watch",
+        "tsc": "tsc --noEmit",
+        "publish": "npm run tsc && npm run build && npm publish"
+    },
+    "mhy": {
+        "mhy": {
+            "cjs": {
+                "distFolder": "dist/cjs"
+            }
+        },
+        "swc": {
+            "cjs": {
+                "jsc": {
+                    "loose": false
+                },
+                "module": {
+                    "type": "commonjs",
+                    "ignoreDynamic": true
+                }
+            }
+        }
+    },
+    "keywords": [
+        "react",
+        "start-view-transition",
+        "animation",
+        "use-start-view-transition"
+    ],
+    "author": "wintercounter",
+    "license": "MIT",
+    "peerDependencies": {
+        "react": ">16",
+        "@types/dom-view-transitions": "^1.0.5"
+    },
+    "devDependencies": {
+        "@types/react": "^18.3.12",
+        "prettier": "^3.0.1",
+        "typescript": "^5.6.3"
+    },
+    "bugs": {
+        "url": "https://github.com/wintercounter/use-start-view-transition/issues"
+    },
+    "homepage": "https://github.com/wintercounter/use-start-view-transition#readme"
+}
