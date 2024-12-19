@@ -1,6 +1,6 @@
 {
     "name": "use-start-view-transition",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "A set of hooks to use `document.startViewTransition` upon state/value changes",
     "main": "dist/cjs/index.js",
     "module": "dist/index.js",

@@ -8,7 +8,11 @@ export const startViewTransition = async (fn: () => void) => {
     if (typeof window === 'undefined' || !('startViewTransition' in document)) {
         fn()
     } else {
-        return document.startViewTransition(fn).ready
+        let readyPromise: undefined | Promise<void>
+        try {
+            readyPromise = document.startViewTransition(fn).ready
+        } catch {}
+        return readyPromise
     }
 }
 
