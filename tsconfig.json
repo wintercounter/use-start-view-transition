@@ -2,22 +2,15 @@
     "compilerOptions": {
         "module": "esNext",
         "target": "esnext",
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "allowJs": false,
-        "emitDeclarationOnly": true,
         "strict": true,
         "jsx": "preserve",
         "resolveJsonModule": true,
         "esModuleInterop": true,
         "noImplicitAny": false,
-        "declaration": true,
-        "baseUrl": "src",
-        "skipLibCheck": true,
-        "incremental": true,
-        "outDir": "src",
-        "paths": {},
-        "typeRoots": ["@types"]
+        "skipLibCheck": true
     },
     "include": ["src/**/*"],
-    "exclude": ["node_modules"]
+    "exclude": ["dist", "node_modules"]
 }

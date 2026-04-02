@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 type StartViewTransitionProps<T> = {
     skipTransition?: boolean | ((v: T) => boolean)
@@ -7,12 +7,32 @@ type StartViewTransitionProps<T> = {
 export const startViewTransition = async (fn: () => void) => {
     if (typeof window === 'undefined' || !('startViewTransition' in document)) {
         fn()
-    } else {
-        let readyPromise: undefined | Promise<void>
-        try {
-            readyPromise = document.startViewTransition(fn).ready
-        } catch {}
-        return readyPromise
+        return
+    }
+
+    try {
+        const transition = document.startViewTransition(fn)
+
+        return transition.ready.catch((error: unknown) => {
+            if (
+                error instanceof Error &&
+                (error.name === 'AbortError' || error.name === 'InvalidStateError')
+            ) {
+                return
+            }
+
+            throw error
+        })
+    } catch (error) {
+        if (
+            error instanceof Error &&
+            (error.name === 'AbortError' || error.name === 'InvalidStateError')
+        ) {
+            fn()
+            return
+        }
+
+        throw error
     }
 }
 
@@ -21,14 +41,25 @@ export const useStartViewTransitionWrap = <T>(
     options: StartViewTransitionProps<T> = {}
 ): [v: T, (v: T | ((prev: T) => T)) => void] => {
     const optionsRef = useRef(options)
+    const isTransitionReadyRef = useRef(false)
     optionsRef.current = options
+
+    useEffect(() => {
+        const frameId = window.requestAnimationFrame(() => {
+            isTransitionReadyRef.current = true
+        })
+
+        return () => {
+            window.cancelAnimationFrame(frameId)
+        }
+    }, [])
 
     const setState = useCallback(
         async (v: T | ((prev: T) => T)) => {
             const { skipTransition } = optionsRef.current
             const skipFn = typeof skipTransition === 'function' ? skipTransition : (v: T) => skipTransition
 
-            if (!skipFn(value)) {
+            if (isTransitionReadyRef.current && !skipFn(value)) {
                 return startViewTransition(() => _setState(v))
             }
 
